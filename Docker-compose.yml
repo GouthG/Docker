@@ -1,0 +1,10 @@
+---
+version: "3.4"
+services:
+ servicename:DIT
+  imagename:goutha/jboss:1.1
+  ports:
+  -8080:8080
+  volumes:
+  -/var/log/prodlogs:/opt/jboss/wildfly/standlone/log
+---
