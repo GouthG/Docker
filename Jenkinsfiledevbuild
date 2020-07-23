@@ -7,18 +7,12 @@ pipeline {
    stages {
       stage('Get Source Code from AWS Code Commit') {
           steps{
-              checkout([$class: 'GitSCM', branches: [[name: '*/Aiops-Release2']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'Codecommit-g', url: 'https://git-codecommit.us-east-2.amazonaws.com/v1/repos/AInfinity']]])
+              checkout([$class: 'GitSCM', branches: [[name: '*/$branch']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'Codecommit-g', url: 'https://git-codecommit.us-east-2.amazonaws.com/v1/repos/AInfinity']]])
               contentReplace(configs: [fileContentReplaceConfig(configs: [fileContentReplaceItemConfig(matchCount: 0, replace: 'wss:', search: 'ws:')], fileEncoding: 'UTF-8', filePath: 'automation/templates/configuration/device_inventory.html'), fileContentReplaceConfig(configs: [fileContentReplaceItemConfig(matchCount: 0, replace: 'wss:', search: 'ws:')], fileEncoding: 'UTF-8', filePath: 'automation/templates/operations/manual_ticket_details.html'), fileContentReplaceConfig(configs: [fileContentReplaceItemConfig(matchCount: 0, replace: 'wss:', search: 'ws:')], fileEncoding: 'UTF-8', filePath: 'automation/templates/operations/manual_ticket_details_open_close_conn.html'), fileContentReplaceConfig(configs: [fileContentReplaceItemConfig(matchCount: 0, replace: 'wss:', search: 'ws:')], fileEncoding: 'UTF-8', filePath: 'automation/templates/operations/operations.html'), fileContentReplaceConfig(configs: [fileContentReplaceItemConfig(matchCount: 0, replace: 'wss:', search: 'ws:')], fileEncoding: 'UTF-8', filePath: 'automation/templates/configuration/ssl_certificates.html'), fileContentReplaceConfig(configs: [fileContentReplaceItemConfig(matchCount: 0, replace: 'wss:', search: 'ws:')], fileEncoding: 'UTF-8', filePath: 'automation/templates/operations/resolve_details.html'), fileContentReplaceConfig(configs: [fileContentReplaceItemConfig(matchCount: 0, replace: 'https://aiops-dev.ainfinitylabs.com', search: 'http://3.19.135.131:8006')], fileEncoding: 'UTF-8', filePath: 'automation/home/views.py')])
              script {
                 sh """
-                    mkdir automation/logs
-                    touch automation/logs/automation.log
-                    touch automation/logs/error.log
                     sudo bash
-                    source /var/app/venv_automation/bin/activate
-                    pip install -r VirtualEnv/requirements.txt
-                    source ~/.bash_profile
-                    python automation/manage.py test
+                    ls -ltr
                    """
                  }
               }
