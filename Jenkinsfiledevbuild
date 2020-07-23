@@ -5,6 +5,11 @@ pipeline {
       }
    }
    stages {
+      stage('clean_workspace') {
+          steps {
+              cleanWs()
+             }
+            }
       stage('Get Source Code from AWS Code Commit') {
           steps{
               checkout([$class: 'GitSCM', branches: [[name: '*/$branch']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'Codecommit-g', url: 'https://git-codecommit.us-east-2.amazonaws.com/v1/repos/AInfinity']]])
